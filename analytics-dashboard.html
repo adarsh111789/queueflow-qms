@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Queue Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-900">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-800/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-lg"></div>
+                    <span class="font-bold text-lg text-slate-900 dark:text-white">QueueFlow</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-slate-600 dark:text-slate-400 user-profile-name"></span>
+                    <a href="auth.html" class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header with Filters -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Analytics & Reports</h1>
+                <p class="text-slate-600 dark:text-slate-400">Detailed insights about your queue performance</p>
+            </div>
+            <div class="flex gap-3">
+                <input type="date" class="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition">Apply Filter</button>
+                <button class="px-4 py-2 bg-slate-200 dark:bg-slate-700 text-slate-900 dark:text-white rounded-lg font-medium hover:bg-slate-300 dark:hover:bg-slate-600 transition">Export</button>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">Peak Hour</h3>
+                <p id="kpi-peak-hour" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">-</p>
+                <p id="kpi-peak-tokens" class="text-xs text-slate-600 dark:text-slate-400">-</p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">Most Requested</h3>
+                <p id="kpi-most-requested" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">-</p>
+                <p id="kpi-most-requested-desc" class="text-xs text-slate-600 dark:text-slate-400">-</p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">Avg Service Time</h3>
+                <p id="kpi-avg-service-time" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">-</p>
+                <p id="kpi-avg-service-time-trend" class="text-xs text-slate-600 dark:text-slate-400">-</p>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">Efficiency Rate</h3>
+                <p id="kpi-efficiency-rate" class="text-3xl font-bold text-slate-900 dark:text-white mb-1">-</p>
+                <p id="kpi-efficiency-rate-desc" class="text-xs text-slate-600 dark:text-slate-400">-</p>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Daily Users Chart -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Daily Users (Last 7 Days)</h2>
+                <div class="h-80">
+                    <canvas id="dailyUsersChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Service Distribution -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Service Distribution</h2>
+                <div class="h-80">
+                    <canvas id="serviceDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Heatmap & Hour Analysis -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Hourly Distribution -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Hourly Distribution</h2>
+                <div id="hourly-distribution-container" class="space-y-3">
+                    <!-- Data will be populated from MongoDB -->
+                </div>
+            </div>
+
+            <!-- Wait Time Analysis -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Wait Time by Service</h2>
+                <div id="wait-time-container" class="space-y-4">
+                    <!-- Data will be populated from MongoDB -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Detailed Reports Table -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white">Detailed Report</h2>
+                <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition text-sm">Export as PDF</button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700">
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Date</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Total Tokens</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Completed</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Avg Wait</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Peak Time</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Efficiency</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailed-report-tbody">
+                        <!-- Data will be populated from MongoDB -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/core.js"></script>
+    <script src="js/analytics-dashboard.js"></script>
+</body>
+</html>

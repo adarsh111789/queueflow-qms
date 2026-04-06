@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Queue Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-900">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-800/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <a href="index.html" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-lg"></div>
+                    <span class="font-bold text-lg text-slate-900 dark:text-white">QueueFlow</span>
+                </a>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-slate-600 dark:text-slate-400 user-profile-name"></span>
+                    <a href="auth.html" class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Admin Dashboard</h1>
+            <p class="text-slate-600 dark:text-slate-400">System overview and analytics</p>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Card 1 -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400">Total Tokens Today</h3>
+                    <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="total-tokens">-</p>
+                <p class="text-xs text-green-600 dark:text-green-400">↑ 12% from yesterday</p>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400">Active Counters</h3>
+                    <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="active-counters">-</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">5 available</p>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400">Avg Wait Time</h3>
+                    <div class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="avg-wait">-</p>
+                <p class="text-xs text-red-600 dark:text-red-400">↓ 5% improvement</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700 hover:shadow-lg transition">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-400">Completed Today</h3>
+                    <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                </div>
+                <p class="text-3xl font-bold text-slate-900 dark:text-white mb-1" id="completed">-</p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">72.4% of target</p>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Hourly Traffic Chart -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Hourly Traffic</h2>
+                <div class="h-80">
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Service Distribution Chart -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Service Distribution</h2>
+                <div class="h-80">
+                    <canvas id="serviceChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Add Service -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Add Service</h3>
+                <div class="space-y-3">
+                    <input type="text" placeholder="Service name" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <button class="w-full py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition">
+                        Add Service
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add Counter -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Add Counter</h3>
+                <div class="space-y-3">
+                    <input type="text" placeholder="Counter name" class="w-full px-4 py-2 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600">
+                    <button class="w-full py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg font-medium hover:shadow-lg transition">
+                        Add Counter
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reset Queue -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Queue Actions</h3>
+                <div class="space-y-3">
+                    <button class="w-full py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 rounded-lg font-medium hover:bg-orange-200 dark:hover:bg-orange-900/50 transition">
+                        Pause Queue
+                    </button>
+                    <button class="w-full py-2 bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg font-medium hover:bg-red-200 dark:hover:bg-red-900/50 transition">
+                        Reset Queue
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Services List -->
+        <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-4">Active Services</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-slate-200 dark:border-slate-700">
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Service</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Waiting</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Completed</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Avg Time</th>
+                            <th class="px-4 py-3 text-left text-sm font-semibold text-slate-600 dark:text-slate-400">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="active-services-tbody">
+                        <!-- Data will be populated from MongoDB -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/core.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Queue Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="bg-white dark:bg-slate-900 transition-colors duration-300">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-indigo-600 to-blue-600 rounded-lg"></div>
+                    <span class="font-bold text-lg text-slate-900 dark:text-white">QueueFlow</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="auth.html"
+                        class="px-4 py-2 text-indigo-600 dark:text-indigo-400 border border-indigo-600 dark:border-indigo-400 rounded-lg hover:bg-indigo-50 dark:hover:bg-indigo-900/20 transition">Login</a>
+                    <a href="auth.html"
+                        class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg hover:shadow-lg hover:scale-105 transition transform">Get
+                        Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section
+        class="min-h-screen bg-gradient-to-br from-slate-50 to-indigo-50 dark:from-slate-900 dark:to-indigo-900 flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 overflow-hidden">
+            <div
+                class="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-indigo-200/20 to-blue-200/20 dark:from-indigo-400/10 dark:to-blue-400/10 rounded-full blur-3xl">
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 animate-fadeIn">
+                    <h1 class="text-5xl md:text-6xl font-bold text-slate-900 dark:text-white leading-tight">
+                        Smart Queue <span
+                            class="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">Management</span>
+                        System
+                    </h1>
+                    <p class="text-xl text-slate-600 dark:text-slate-400 leading-relaxed">
+                        Reduce wait times with digital tokens, real-time updates, and SMS alerts. Manage multiple
+                        counters effortlessly with our intelligent queue management solution.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <a href="auth.html"
+                            class="px-8 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg font-semibold hover:shadow-xl hover:scale-105 transition transform text-center">Get
+                            Started</a>
+                    </div>
+                </div>
+                <div class="hidden lg:flex justify-center animate-float">
+                    <div
+                        class="w-full h-96 bg-gradient-to-br from-indigo-400/20 to-blue-400/20 rounded-2xl backdrop-blur-sm border border-indigo-200/50 dark:border-indigo-700/50 flex items-center justify-center">
+                        <svg class="w-64 h-64 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/core.js"></script>
+</body>
+
+</html>
