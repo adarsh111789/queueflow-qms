@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # QueueFlow - Queue Management System
 
 > A production-ready, full-stack Queue Management System (QMS) with live token generation, staff approval workflow, role-based authentication, and real-time analytics. Powered by Node.js + MongoDB.
@@ -208,3 +209,6 @@ Customer Requests Token
 ---
 
 > Built with ❤️ using Node.js, Express, and MongoDB.
+=======
+# queueflow-qms
+>>>>>>> 59b84a4f934751fd4649cc923c7caa50ff5536bc

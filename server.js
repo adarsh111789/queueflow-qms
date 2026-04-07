@@ -218,6 +218,51 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// 7. Get full token history (completed tokens)
+app.get('/api/queue/history', async (req, res) => {
+    try {
+        const history = await Token.find({ status: 'completed' })
+            .sort({ completedAt: -1 })
+            .limit(50);
+        res.json(history);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 8. Get all registered users (Admin only)
+app.get('/api/admin/users', async (req, res) => {
+    try {
+        const users = await User.find({}, '-password'); // Exclude password field
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 9. Get all services
+app.get('/api/services', async (req, res) => {
+    try {
+        const services = await Service.find();
+        res.json(services);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// 10. Get per-service token breakdown
+app.get('/api/queue/breakdown', async (req, res) => {
+    try {
+        const breakdown = await Token.aggregate([
+            { $group: { _id: '$serviceType', total: { $sum: 1 }, pending: { $sum: { $cond: [{ $eq: ['$status', 'pending'] }, 1, 0] } }, waiting: { $sum: { $cond: [{ $eq: ['$status', 'waiting'] }, 1, 0] } }, completed: { $sum: { $cond: [{ $eq: ['$status', 'completed'] }, 1, 0] } } } },
+            { $sort: { total: -1 } }
+        ]);
+        res.json(breakdown);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`QueueFlow backend running on port ${PORT}`);
 });
