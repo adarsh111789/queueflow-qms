@@ -1,15 +1,20 @@
 {
-  "name": "queue-dash",
+  "name": "queueflow-qms",
   "version": "1.0.0",
-  "description": "A modern, fully-featured queue management web application built with HTML, Tailwind CSS, and jQuery. This system provides comprehensive queue management across 8 distinct pages with real-time updates, analytics, and multi-role support.",
-  "main": "index.js",
+  "description": "A production-ready Queue Management System with real-time token generation and staff approval workflow",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["queue-management", "qms", "nodejs", "express", "mongodb"],
+  "author": "adarsh111789",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": "18.x"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
